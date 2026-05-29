@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>微积分笔记库 · Calculus Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Spectral:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f4efe6;
+    --paper2:#ece4d6;
+    --paper3:#e3d9c7;
+    --ink:#2b2620;
+    --ink-soft:#5c544a;
+    --ink-faint:#8b8071;
+    --accent:#9b2c20;
+    --accent2:#1f5c54;
+    --gold:#a67c2e;
+    --rule:#d3c9b6;
+    --hl:#fbf3d9;
+    --shadow:rgba(43,38,32,0.08);
+    --shadow-lg:rgba(43,38,32,0.16);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:'Spectral',Georgia,serif;line-height:1.7;min-height:100vh;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(var(--paper2) 1px, transparent 1px);background-size:4px 4px;opacity:0.4;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 32px;position:relative;z-index:1}
+  header{padding:72px 0 40px;text-align:center;border-bottom:2px solid var(--ink);position:relative;}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:20px;}
+  header h1{font-family:'Newsreader',serif;font-weight:500;font-size:clamp(34px,6vw,54px);line-height:1.08;letter-spacing:-0.5px;margin-bottom:6px;}
+  header .h1cn{font-family:'Noto Serif SC',serif;font-weight:500;font-size:19px;color:var(--accent2);letter-spacing:3px;margin-bottom:24px;}
+  header .meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-soft);letter-spacing:1.5px;}
+  .seal{display:inline-block;margin-top:22px;width:50px;height:50px;line-height:50px;border:2px solid var(--accent);color:var(--accent);border-radius:8px;font-family:'Noto Serif SC',serif;font-weight:700;font-size:22px;transform:rotate(-4deg);}
+  .stats{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;padding:28px 0;margin-bottom:8px;}
+  .stat{text-align:center}
+  .stat-num{font-family:'Newsreader',serif;font-size:32px;font-weight:500;color:var(--accent);line-height:1;}
+  .stat-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-faint);margin-top:6px;}
+  .section-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);text-align:center;margin:48px 0 4px;}
+  .section-title{font-family:'Newsreader',serif;font-weight:500;font-size:26px;text-align:center;margin-bottom:6px;}
+  .section-rule{width:60px;height:2px;background:var(--accent);margin:0 auto 32px}
+  .notes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-bottom:24px;}
+  .note-card{background:rgba(255,253,248,0.7);border:1px solid var(--rule);border-left:3px solid var(--accent2);border-radius:4px;padding:24px 26px;cursor:pointer;transition:all 0.22s ease;display:flex;flex-direction:column;gap:10px;box-shadow:0 1px 0 var(--shadow);position:relative;}
+  .note-card:hover{transform:translateY(-3px);box-shadow:0 10px 30px var(--shadow-lg);border-left-color:var(--accent);background:rgba(255,253,248,0.95);}
+  .card-module{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--accent);text-transform:uppercase;}
+  .card-title{font-family:'Newsreader',serif;font-weight:600;font-size:19px;line-height:1.3;color:var(--ink);}
+  .card-cn{font-family:'Noto Serif SC',serif;font-size:14px;color:var(--accent2);letter-spacing:1px;}
+  .card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:6px;padding-top:12px;border-top:1px solid var(--rule);}
+  .card-topics{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:0.5px;}
+  .card-arrow{color:var(--accent);font-size:16px;transition:transform 0.2s}
+  .note-card:hover .card-arrow{transform:translateX(4px)}
+  .empty-note{border:1px dashed var(--rule);border-radius:4px;padding:24px 26px;display:flex;flex-direction:column;gap:8px;opacity:0.55;background:transparent;}
+  .empty-note .card-module{color:var(--ink-faint)}
+  .empty-note .card-title{color:var(--ink-faint);font-size:15px;font-style:italic}
+  .upload-box{border:1px dashed var(--gold);border-radius:6px;padding:36px;text-align:center;cursor:pointer;transition:all 0.22s;position:relative;background:linear-gradient(180deg,rgba(251,243,217,0.4),transparent);}
+  .upload-box:hover,.upload-box.dragover{border-color:var(--accent);background:linear-gradient(180deg,var(--hl),transparent);}
+  .upload-box input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+  .upload-icon{font-family:'Newsreader',serif;font-size:36px;color:var(--gold);margin-bottom:10px;line-height:1;}
+  .upload-text{font-size:15px;color:var(--ink-soft);margin-bottom:6px}
+  .upload-hint{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:1px;}
+  .instructions{background:rgba(255,253,248,0.6);border:1px solid var(--rule);border-radius:6px;padding:26px 30px;margin-top:18px;}
+  .instructions h3{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:18px;}
+  .step{display:flex;gap:16px;margin-bottom:14px;align-items:flex-start}
+  .step:last-child{margin-bottom:0}
+  .step-num{font-family:'Newsreader',serif;font-size:14px;font-weight:600;color:var(--accent);border:1.5px solid var(--accent);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .step-text{font-size:14px;color:var(--ink-soft);line-height:1.65;padding-top:2px}
+  .step-text code{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent2);background:var(--paper2);padding:1px 7px;border-radius:3px;}
+  .viewer-overlay{display:none;position:fixed;inset:0;background:rgba(43,38,32,0.5);z-index:100;backdrop-filter:blur(3px);}
+  .viewer-overlay.active{display:flex;flex-direction:column}
+  .viewer-bar{background:var(--paper2);border-bottom:2px solid var(--ink);padding:14px 26px;display:flex;align-items:center;gap:16px;flex-shrink:0;}
+  .viewer-title{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-soft);letter-spacing:1px;flex:1;}
+  .btn-close{background:none;border:1.5px solid var(--accent);color:var(--accent);padding:6px 16px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;cursor:pointer;transition:all 0.2s;}
+  .btn-close:hover{background:var(--accent);color:var(--paper)}
+  .viewer-frame{flex:1;border:none;background:var(--paper)}
+  footer{margin-top:56px;padding:28px 0 56px;border-top:2px solid var(--ink);text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-faint);letter-spacing:1px;}
+  @media(max-width:600px){.wrap{padding:0 20px}header{padding:48px 0 32px}.notes-grid{grid-template-columns:1fr}.stats{gap:32px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">OSU Pathway · Advanced Calculus</div>
+    <h1>微积分笔记库</h1>
+    <div class="h1cn">Bilingual Study Notes · 中英对照学习笔记</div>
+    <div class="meta">A PERSONAL ARCHIVE · ANNOTATED EDITION</div>
+    <div class="seal">微</div>
+  </header>
+  <div class="stats">
+    <div class="stat"><div class="stat-num" id="note-count">1</div><div class="stat-label">笔记 Notes</div></div>
+    <div class="stat"><div class="stat-num">∞</div><div class="stat-label">可扩展 Expandable</div></div>
+    <div class="stat"><div class="stat-num">双</div><div class="stat-label">语 Bilingual</div></div>
+  </div>
+  <div class="section-label">Part I</div>
+  <div class="section-title">笔记目录 · Notes</div>
+  <div class="section-rule"></div>
+  <div class="notes-grid" id="notes-grid">
+    <div class="note-card" onclick="openNote('AdvancedCalculus_M1V2_bilingual_notes.html', 'M1V2 — The Mean Value Theorem')">
+      <div class="card-module">M1V2 · Mean Value Theorem</div>
+      <div class="card-title">The Mean Value Theorem</div>
+      <div class="card-cn">中值定理 · 中英对照精读</div>
+      <div class="card-footer"><span class="card-topics">7 concepts · 7 examples</span><span class="card-arrow">→</span></div>
+    </div>
+    <div class="empty-note"><div class="card-module">待添加 · Coming Soon</div><div class="card-title">下一篇笔记</div></div>
+    <div class="empty-note"><div class="card-module">待添加 · Coming Soon</div><div class="card-title">下一篇笔记</div></div>
+  </div>
+  <div class="section-label">Part II</div>
+  <div class="section-title">添加笔记 · Add Notes</div>
+  <div class="section-rule"></div>
+  <div class="upload-box" id="upload-box">
+    <input type="file" accept=".html" multiple onchange="handleUpload(this)">
+    <div class="upload-icon">+</div>
+    <div class="upload-text">拖拽 HTML 文件到这里，或点击选择</div>
+    <div class="upload-hint">Drop HTML files here · 仅本地预览</div>
+  </div>
+  <div class="instructions">
+    <h3>如何永久添加新笔记 · Add Permanently</h3>
+    <div class="step"><div class="step-num">1</div><div class="step-text">把新的 <code>.html</code> 笔记文件上传到你的 GitHub 仓库</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-text">编辑 <code>index.html</code>，复制一个 note-card 块，改成新文件的标题和文件名</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-text">Commit 保存，GitHub Pages 一两分钟后自动更新</div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-text">手机微信打开你的网址，新笔记就出现了 🎉</div></div>
+  </div>
+</div>
+<footer>Advanced Calculus Notes · OSU Pathway · 按需扩展，终身使用</footer>
+<div class="viewer-overlay" id="viewer">
+  <div class="viewer-bar">
+    <span class="viewer-title" id="viewer-title">—</span>
+    <button class="btn-close" onclick="closeNote()">✕ 关闭 CLOSE</button>
+  </div>
+  <iframe class="viewer-frame" id="viewer-frame" src=""></iframe>
+</div>
+<script>
+  function openNote(url, title){
+    document.getElementById('viewer-title').textContent = title;
+    document.getElementById('viewer-frame').src = url;
+    document.getElementById('viewer').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeNote(){
+    document.getElementById('viewer').classList.remove('active');
+    document.getElementById('viewer-frame').src = '';
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if(e.key==='Escape') closeNote(); });
+  function handleUpload(input){
+    const files = Array.from(input.files);
+    files.forEach(file => {
+      if(!file.name.endsWith('.html')) return;
+      const url = URL.createObjectURL(file);
+      const card = document.createElement('div');
+      card.className = 'note-card';
+      card.innerHTML = '<div class="card-module">已上传 · Uploaded</div><div class="card-title">'+file.name.replace('.html','').replace(/_/g,' ')+'</div><div class="card-cn">本地预览 · Local Preview</div><div class="card-footer"><span class="card-topics">'+(file.size/1024).toFixed(1)+' KB</span><span class="card-arrow">→</span></div>';
+      card.onclick = () => openNote(url, file.name);
+      const grid = document.getElementById('notes-grid');
+      const empties = grid.querySelectorAll('.empty-note');
+      if(empties.length > 0){ grid.insertBefore(card, empties[0]); }
+      else { grid.appendChild(card); }
+      document.getElementById('note-count').textContent = grid.querySelectorAll('.note-card').length;
+    });
+  }
+  const box = document.getElementById('upload-box');
+  box.addEventListener('dragover', e => { e.preventDefault(); box.classList.add('dragover'); });
+  box.addEventListener('dragleave', () => box.classList.remove('dragover'));
+  box.addEventListener('drop', e => {
+    e.preventDefault();
+    box.classList.remove('dragover');
+    const input = box.querySelector('input');
+    input.files = e.dataTransfer.files;
+    handleUpload(input);
+  });
+</script>
+</body>
+</html>
