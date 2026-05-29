@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Calculus M1V2 — The Mean Value Theorem · 中英对照学习笔记</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Spectral:wght@300;400;500;600&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+  :root{
+    --paper:#f4efe6;
+    --paper2:#ece4d6;
+    --ink:#2b2620;
+    --ink-soft:#5c544a;
+    --accent:#9b2c20;     /* deep vermilion — like a seal/印章 */
+    --accent2:#1f5c54;    /* pine green */
+    --gold:#a67c2e;
+    --rule:#d3c9b6;
+    --hl:#fbf3d9;
+    --cn:#1f5c54;         /* chinese annotation color */
+    --shadow:rgba(43,38,32,0.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Spectral',Georgia,serif;
+    font-weight:400;
+    line-height:1.7;
+    font-size:17px;
+  }
+  /* paper grain */
+  body::before{
+    content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:radial-gradient(var(--paper2) 1px, transparent 1px);
+    background-size:4px 4px;opacity:0.4;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
+
+  /* ── Masthead ── */
+  header{padding:64px 0 36px;text-align:center;border-bottom:2px solid var(--ink)}
+  .kicker{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:4px;
+    text-transform:uppercase;color:var(--accent);margin-bottom:18px;
+  }
+  header h1{
+    font-family:'Newsreader',serif;font-weight:500;font-size:clamp(30px,5.5vw,46px);
+    line-height:1.12;letter-spacing:-0.5px;margin-bottom:8px;
+  }
+  header .h1cn{
+    font-family:'Noto Sans SC',sans-serif;font-weight:500;font-size:18px;
+    color:var(--accent2);letter-spacing:2px;margin-bottom:18px;
+  }
+  header .meta{
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-soft);
+    letter-spacing:1px;
+  }
+  header .seal{
+    display:inline-block;margin-top:20px;width:46px;height:46px;line-height:46px;
+    border:2px solid var(--accent);color:var(--accent);border-radius:8px;
+    font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:20px;
+    transform:rotate(-4deg);
+  }
+
+  /* ── Section ── */
+  .part-label{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:3px;
+    text-transform:uppercase;color:var(--accent);
+    margin:56px 0 6px;text-align:center;
+  }
+  .part-title{
+    font-family:'Newsreader',serif;font-weight:500;font-size:30px;text-align:center;
+    margin-bottom:6px;
+  }
+  .part-title-cn{
+    font-family:'Noto Sans SC',sans-serif;font-size:15px;color:var(--accent2);
+    text-align:center;letter-spacing:3px;margin-bottom:8px;
+  }
+  .part-rule{width:60px;height:2px;background:var(--accent);margin:0 auto 36px}
+
+  /* ── Concept card ── */
+  .concept{
+    background:rgba(255,253,248,0.6);
+    border:1px solid var(--rule);
+    border-left:3px solid var(--accent2);
+    border-radius:4px;
+    padding:24px 28px;margin-bottom:22px;
+    box-shadow:0 1px 0 var(--shadow);
+  }
+  .concept h3{
+    font-family:'Newsreader',serif;font-weight:600;font-size:21px;
+    display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px;
+  }
+  .concept h3 .num{
+    font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--accent);
+    font-weight:600;
+  }
+  .concept h3 .cn{
+    font-family:'Noto Sans SC',sans-serif;font-weight:500;font-size:15px;
+    color:var(--cn);letter-spacing:1px;
+  }
+  .concept p{margin:10px 0;color:var(--ink)}
+  .concept p.note{font-size:15px;color:var(--ink-soft);font-style:italic}
+
+  /* chinese inline annotation chip */
+  .t{white-space:nowrap}
+  .t .cn{
+    font-family:'Noto Sans SC',sans-serif;font-size:0.82em;color:var(--cn);
+    font-style:normal;
+  }
+  .t .cn::before{content:'（'}
+  .t .cn::after{content:'）'}
+
+  /* math display box */
+  .mbox{
+    background:var(--paper2);border-radius:4px;padding:6px 16px;margin:14px 0;
+    overflow-x:auto;border:1px solid var(--rule);
+  }
+
+  /* callout for the key f(0) insight */
+  .key{
+    background:linear-gradient(180deg,var(--hl),#f7edd0);
+    border:1px solid var(--gold);border-radius:6px;
+    padding:22px 26px;margin:22px 0;position:relative;
+  }
+  .key::before{
+    content:'★ KEY';position:absolute;top:-11px;left:22px;
+    background:var(--gold);color:#fff;font-family:'JetBrains Mono',monospace;
+    font-size:10px;letter-spacing:2px;padding:3px 10px;border-radius:10px;
+  }
+  .key h4{
+    font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:16px;
+    color:var(--accent);margin-bottom:8px;
+  }
+
+  /* example block */
+  .ex{
+    border:1px solid var(--rule);border-radius:4px;margin-bottom:24px;
+    overflow:hidden;background:rgba(255,253,248,0.5);
+  }
+  .ex-head{
+    background:var(--ink);color:var(--paper);padding:12px 24px;
+    display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  }
+  .ex-head .exnum{
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);
+    letter-spacing:1px;
+  }
+  .ex-head .extitle{font-family:'Newsreader',serif;font-size:18px;font-weight:500}
+  .ex-head .excn{
+    font-family:'Noto Sans SC',sans-serif;font-size:13px;color:#c9bfa8;
+    margin-left:auto;letter-spacing:1px;
+  }
+  .ex-body{padding:20px 26px}
+  .ex-body .label{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;
+    text-transform:uppercase;color:var(--accent2);margin:14px 0 4px;
+  }
+  .ex-body .label:first-child{margin-top:0}
+
+  /* candidate table */
+  table.cand{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+  table.cand th,table.cand td{
+    text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule);
+  }
+  table.cand th{
+    font-family:'Noto Sans SC',sans-serif;font-weight:500;font-size:13px;
+    color:var(--accent2);background:var(--paper2);
+  }
+  table.cand tr.hot td{background:var(--hl)}
+  table.cand td .arrow{color:var(--accent);font-weight:700}
+
+  /* values strip */
+  .vals{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+  .vals .v{
+    background:var(--paper2);border:1px solid var(--rule);border-radius:4px;
+    padding:8px 14px;font-size:15px;
+  }
+  .vals .v.max{border-color:var(--accent2);background:#e4efe9}
+  .vals .v.min{border-color:var(--accent);background:#f4e2df}
+
+  /* footnote / divider */
+  .endnote{
+    margin:48px 0 64px;padding-top:24px;border-top:2px solid var(--ink);
+    font-size:14px;color:var(--ink-soft);text-align:center;
+    font-family:'JetBrains Mono',monospace;letter-spacing:1px;
+  }
+
+  strong{font-weight:600;color:var(--accent)}
+  .cn-strong{font-family:'Noto Sans SC',sans-serif;font-weight:700;color:var(--accent2)}
+
+  /* TOC */
+  .toc{
+    background:rgba(255,253,248,0.7);border:1px solid var(--rule);
+    border-radius:4px;padding:20px 28px;margin:32px 0 8px;
+  }
+  .toc h2{
+    font-family:'Noto Sans SC',sans-serif;font-size:14px;letter-spacing:2px;
+    color:var(--accent);margin-bottom:12px;font-weight:700;
+  }
+  .toc ol{list-style:none;counter-reset:toc;column-count:2;column-gap:32px}
+  .toc li{
+    counter-increment:toc;padding:4px 0;font-size:15px;break-inside:avoid;
+  }
+  .toc li::before{
+    content:counter(toc,upper-roman) '. ';color:var(--accent);
+    font-family:'JetBrains Mono',monospace;font-size:12px;
+  }
+  .toc a{color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--rule)}
+  .toc a:hover{color:var(--accent);border-color:var(--accent)}
+  @media(max-width:560px){.toc ol{column-count:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ════ MASTHEAD ════ -->
+  <header>
+    <div class="kicker">The University of Sydney · MOOC Advanced Calculus</div>
+    <h1>M1V2 — The Mean Value Theorem</h1>
+    <div class="h1cn">中值定理 · 中英对照精读笔记</div>
+    <div class="meta">CORE CONCEPTS &amp; WORKED EXAMPLES · ANNOTATED EDITION</div>
+    <div class="seal">微</div>
+  </header>
+
+  <!-- ════ TOC ════ -->
+  <div class="toc">
+    <h2>目录 · CONTENTS</h2>
+    <ol>
+      <li><a href="#c1">Smooth functions 光滑函数</a></li>
+      <li><a href="#c2">Continuous functions 连续函数</a></li>
+      <li><a href="#c3">Extreme Value Theorem 极值定理</a></li>
+      <li><a href="#c4">Derivative vanishes 极值点导数为零</a></li>
+      <li><a href="#c5">Closed Interval Method 闭区间法</a></li>
+      <li><a href="#c6">Rolle's Theorem 罗尔定理</a></li>
+      <li><a href="#c7">Mean Value Theorem 中值定理</a></li>
+      <li><a href="#c8">Consequences of MVT 推论</a></li>
+      <li><a href="#examples">Worked Examples 例题精解</a></li>
+    </ol>
+  </div>
+
+  <!-- ════ PART I ════ -->
+  <div class="part-label">Part I</div>
+  <div class="part-title">Important Ideas &amp; Useful Facts</div>
+  <div class="part-title-cn">核心概念与重要事实</div>
+  <div class="part-rule"></div>
+
+  <!-- C1 -->
+  <div class="concept" id="c1">
+    <h3><span class="num">i</span> Smooth Functions <span class="cn">光滑函数 / 可导函数</span></h3>
+    <p>A function \(y=f(x)\) is <span class="t"><strong>smooth</strong><span class="cn">光滑</span></span> at \(x=a\) if the <span class="t">derivative<span class="cn">导数</span></span> \(f'(a)\) exists, so the curve has a <span class="t">tangent line<span class="cn">切线</span></span> at \(\big(a,f(a)\big)\). The tangent then closely approximates the curve nearby. We then say \(f\) is <span class="t"><strong>differentiable</strong><span class="cn">可微 / 可导</span></span> at \(x=a\).</p>
+    <p class="note">Some authors require all higher derivatives to exist for smoothness; we use only this weaker condition. 部分教材要求所有高阶导数都存在才算"光滑"，本课程不作此要求。</p>
+  </div>
+
+  <!-- C2 -->
+  <div class="concept" id="c2">
+    <h3><span class="num">ii</span> Continuous Functions <span class="cn">连续函数</span></h3>
+    <p>A function is <span class="t"><strong>continuous</strong><span class="cn">连续</span></span> at \(x=a\) if both \(f(a)\) and \(\displaystyle\lim_{x\to a}f(x)\) exist and are equal:</p>
+    <div class="mbox">\[ \lim_{x\to a} f(x) = f(a) \]</div>
+    <p>Informally: the curve can be drawn <strong>without lifting the pen</strong> off the page. 直观地说，曲线可以"一笔画成、笔不离纸"。</p>
+    <p class="note">A curve can be continuous without being smooth. E.g. \(f(x)=|x|\) is continuous everywhere but <strong>not smooth at \(x=0\)</strong> — a <span class="t">sharp corner<span class="cn">尖角</span></span> where the derivative fails to exist. 连续不一定光滑：绝对值函数在原点有尖角，不可导。</p>
+  </div>
+
+  <!-- C3 -->
+  <div class="concept" id="c3">
+    <h3><span class="num">iii</span> The Extreme Value Theorem <span class="cn">极值定理 / 最值存在定理 (EVT)</span></h3>
+    <p>If \(a<b\) and \(f\) is <strong>continuous on the closed interval</strong> \([a,b]\), then \(f\) achieves a <span class="t"><strong>maximum</strong><span class="cn">最大值</span></span> \(f(c)\) and a <span class="t"><strong>minimum</strong><span class="cn">最小值</span></span> \(f(d)\) for some \(c,d\in[a,b]\).</p>
+    <p class="note">Intuitive via the "no pen-lifting" picture. A rigorous proof needs formal limit definitions, covered in <span class="t">analysis<span class="cn">数学分析</span></span>. 闭区间上的连续函数，最大值和最小值一定存在。</p>
+  </div>
+
+  <!-- C4 -->
+  <div class="concept" id="c4">
+    <h3><span class="num">iv</span> Derivative Vanishes at Extrema <span class="cn">极值点处导数为零 (费马引理)</span></h3>
+    <p>An <span class="t"><strong>extreme value</strong><span class="cn">极值</span></span> is any max or min, global or local. <strong>Theorem:</strong> if \(f(c)\) is an extreme value for some interior point \(c\in(a,b)\) <strong>and \(f'(c)\) exists</strong>, then</p>
+    <div class="mbox">\[ f'(c)=0 \]</div>
+    <p>Geometrically the tangent line is <strong>horizontal</strong> ("in balance") at the extremum. 极值点处切线水平。</p>
+    <div class="key">
+      <h4>⚠️ 注意这个前提：「如果 f′(c) 存在」</h4>
+      <p style="font-family:'Noto Sans SC',sans-serif;font-size:15px;margin:0">这条定理<strong style="color:var(--accent)">只在导数存在时才成立</strong>。如果某点不可导（比如尖角），极值可能藏在那里却<strong style="color:var(--accent)">不满足 f′=0</strong>。这正是后面例题 2 必须计算 \(f(0)\) 的根本原因。</p>
+    </div>
+  </div>
+
+  <!-- C5 -->
+  <div class="concept" id="c5">
+    <h3><span class="num">v</span> Closed Interval Method <span class="cn">闭区间法 / 最值求法</span></h3>
+    <p>To find the <span class="t"><strong>absolute</strong> max/min<span class="cn">全局最值</span></span> of a continuous \(f\) on \([a,b]\), it suffices to compare \(f(c)\) over these <span class="t">candidate points<span class="cn">候选点</span></span>:</p>
+    <table class="cand">
+      <tr><th>Candidate 候选点</th><th>Condition 条件</th></tr>
+      <tr><td>\(c=a,\; c=b\)</td><td>the two <span class="t">endpoints<span class="cn">端点</span></span></td></tr>
+      <tr><td>interior \(c\)</td><td>\(f'(c)=0\) &nbsp;→&nbsp; <span class="t">stationary point<span class="cn">驻点</span></span></td></tr>
+      <tr class="hot"><td>interior \(c\)</td><td><strong>\(f'(c)\) does not exist</strong> &nbsp;→&nbsp; <span class="t">non-differentiable point<span class="cn">不可导点</span></span></td></tr>
+    </table>
+    <p class="note">The highlighted third row is the one students most often forget. 高亮的第三类点最容易被遗漏！</p>
+  </div>
+
+  <!-- C6 -->
+  <div class="concept" id="c6">
+    <h3><span class="num">vi</span> Rolle's Theorem <span class="cn">罗尔定理</span></h3>
+    <p>If \(f\) is continuous on \([a,b]\), differentiable on \((a,b)\), and the endpoints agree \(f(a)=f(b)\), then</p>
+    <div class="mbox">\[ f'(c)=0 \quad\text{for some } c\in(a,b) \]</div>
+    <p>If the function returns to the same height, somewhere in between the <strong>tangent must be horizontal</strong>. Follows from the EVT plus fact (iv). 两端点等高 ⟹ 中间必有一点切线水平。</p>
+  </div>
+
+  <!-- C7 -->
+  <div class="concept" id="c7">
+    <h3><span class="num">vii</span> The Mean Value Theorem <span class="cn">中值定理 (MVT)</span></h3>
+    <p>If \(f\) is continuous on \([a,b]\) and differentiable on \((a,b)\), then for some \(c\in(a,b)\):</p>
+    <div class="mbox">\[ f'(c)=\frac{f(b)-f(a)}{b-a} \]</div>
+    <p>The right side is the <span class="t"><strong>average rate of change</strong><span class="cn">平均变化率</span></span>; the MVT says this is hit <strong>instantaneously</strong> as the derivative somewhere inside. 平均变化率必在某一瞬间被瞬时变化率（导数）达到。</p>
+    <p class="note">🚗 Traffic analogy: a car covering 111 km in one hour must, at some instant, have been going 111 km/h. Rolle's Theorem is the special case \(f(a)=f(b)\). 测速原理；罗尔定理是其特例。</p>
+  </div>
+
+  <!-- C8 -->
+  <div class="concept" id="c8">
+    <h3><span class="num">viii</span> Consequences of the MVT <span class="cn">中值定理的推论</span></h3>
+    <p>For differentiable \(f\) on \((a,b)\):</p>
+    <table class="cand">
+      <tr><th>If…</th><th>then… 结论</th></tr>
+      <tr><td>\(f'(x)>0\) everywhere</td><td>\(f\) is <span class="t">increasing<span class="cn">单调递增</span></span></td></tr>
+      <tr><td>\(f'(x)<0\) everywhere</td><td>\(f\) is <span class="t">decreasing<span class="cn">单调递减</span></span></td></tr>
+      <tr><td>\(f'(x)=0\) everywhere</td><td>\(f\) is <span class="t">constant<span class="cn">常值函数</span></span></td></tr>
+      <tr><td>\(f'(x)=g'(x)\) everywhere</td><td>\(f(x)=g(x)+C\) &nbsp;<span class="t">(差一个常数)<span class="cn">积分常数的来源</span></span></td></tr>
+    </table>
+    <p class="note">(a)(b) underpin <span class="t">sign diagrams<span class="cn">符号表 / 增减表</span></span> in curve sketching; (d) explains the "+C" in integration. 前两条支撑画图的增减表，最后一条是积分中"+C"的由来。</p>
+  </div>
+
+  <!-- ════ PART II ════ -->
+  <div class="part-label" id="examples">Part II</div>
+  <div class="part-title">Worked Examples</div>
+  <div class="part-title-cn">例题精解</div>
+  <div class="part-rule"></div>
+
+  <!-- EX1 -->
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 1</span><span class="extitle">Proof: derivative vanishes at an extremum</span><span class="excn">证明：极值点导数为零</span></div>
+    <div class="ex-body">
+      <div class="label">Setup 设定</div>
+      <p>Assume \(f(c)\) is a <strong>maximum</strong> at interior \(c\), and \(f'(c)\) exists. Pick small \(h>0\) with \(c\pm h\in[a,b]\). Form two <span class="t">secants<span class="cn">割线</span></span> \(S_1\) (left) and \(S_2\) (right).</p>
+      <div class="label">Squeeze 夹逼</div>
+      <p>As \(h\to 0\), both secant slopes tend to \(f'(c)\). Since \(f(c)\) is a max:</p>
+      <div class="mbox">\[ \text{slope of }S_1\ge 0 \;\Rightarrow\; f'(c)\ge 0, \qquad \text{slope of }S_2\le 0 \;\Rightarrow\; f'(c)\le 0 \]</div>
+      <p>Thus \(0\le f'(c)\le 0\), forcing <strong>\(f'(c)=0\)</strong>. \(\blacksquare\) &nbsp;<span style="font-family:'Noto Sans SC',sans-serif;font-size:14px;color:var(--ink-soft)">用左右割线斜率把导数夹在 0 与 0 之间。</span></p>
+    </div>
+  </div>
+
+  <!-- EX2 — THE STAR -->
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 2 ★</span><span class="extitle">Optimise \(f(x)=x^3-|x|\) on \([-1,2]\)</span><span class="excn">本题就是 f(0) 之谜</span></div>
+    <div class="ex-body">
+      <div class="label">The function 分段表达</div>
+      <div class="mbox">\[ f(x)=x^3-|x|=\begin{cases}x^3-x & x>0\\[2pt] x^3+x & x\le 0\end{cases} \]</div>
+      <div class="label">Derivative 求导</div>
+      <div class="mbox">\[ f'(x)=\begin{cases}3x^2-1 & x>0\\[2pt] 3x^2+1 & x<0\\[2pt] \textbf{undefined} & x=0\end{cases} \]</div>
+      <p><span class="t">Stationary point<span class="cn">驻点</span></span>: \(3x^2-1=0\) with \(x>0\) gives \(x=\tfrac{1}{\sqrt3}\). And \(3x^2+1>0\) always, so no root on the left.</p>
+
+      <div class="key">
+        <h4>★ 为什么 f(0) 绝不能省略？</h4>
+        <p style="font-family:'Noto Sans SC',sans-serif;font-size:15px;margin:0 0 8px">
+          因为 \(f(x)\) 含 \(|x|\)，在 \(x=0\) 处是<strong style="color:var(--accent)">尖角，导数不存在</strong>。根据闭区间法第三类候选点（不可导点），\(x=0\) <strong style="color:var(--accent)">必须检查</strong>。极值"藏"在不可导点时，并不满足 \(f'=0\)，光靠求驻点会漏掉它！</p>
+        <p style="font-family:'Noto Sans SC',sans-serif;font-size:14px;color:var(--ink-soft);margin:0">
+          对比：之前 \(x^{-n}\) 在 \(0\) 处<em>无定义</em>（函数不存在）→ 算 \(f(0)\) 无意义；这里 \(f(0)=0\) <em>有定义但不可导</em> → 必须算。</p>
+      </div>
+
+      <div class="label">Candidates 候选点比较</div>
+      <table class="cand">
+        <tr><th>Point 点</th><th>Type 类型</th><th>Value 值</th></tr>
+        <tr><td>\(x=\tfrac{1}{\sqrt3}\)</td><td>驻点 \(f'=0\)</td><td>\(-\tfrac{2}{3\sqrt3}\approx-0.385\)</td></tr>
+        <tr class="hot"><td>\(x=0\)</td><td><strong>不可导点</strong></td><td>\(f(0)=0\)</td></tr>
+        <tr><td>\(x=-1\)</td><td>端点</td><td>\(f(-1)=-2\)</td></tr>
+        <tr><td>\(x=2\)</td><td>端点</td><td>\(f(2)=6\)</td></tr>
+      </table>
+      <div class="label">Conclusion 结论</div>
+      <div class="vals">
+        <span class="v max">Global max 全局最大 = <strong style="color:var(--accent2)">6</strong> at \(x=2\)</span>
+        <span class="v min">Global min 全局最小 = <strong style="color:var(--accent)">−2</strong> at \(x=-1\)</span>
+      </div>
+      <p class="note" style="font-size:14px;color:var(--ink-soft);font-style:italic">Curve is continuous but not smooth at \(x=0\). Here \(f(0)=0\) is a <strong>local</strong> max — not the global answer, but you only know that after checking. 在 \(x=0\) 处连续但不光滑；\(f(0)=0\) 是局部极大，算过才知道它不是全局最值。</p>
+    </div>
+  </div>
+
+  <!-- EX3 -->
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 3</span><span class="extitle">Rolle ⇒ exactly two solutions</span><span class="excn">用罗尔定理证明解的个数</span></div>
+    <div class="ex-body">
+      <p>Show \(x^2-x\sin x-\cos x=0\) has <strong>exactly two</strong> solutions. Let \(f(x)=x^2-x\sin x-\cos x\), then</p>
+      <div class="mbox">\[ f'(x)=2x-x\cos x=x(2-\cos x) \]</div>
+      <p>Since \(2-\cos x\ge 1\ne 0\), we get \(f'(x)=0\) <strong>only at \(x=0\)</strong>.</p>
+      <div class="label">At most two 至多两解 — by contradiction 反证</div>
+      <p>If there were 3 roots \(a<b<c\), Rolle gives \(f'(d)=0\) on \((a,b)\) and \(f'(e)=0\) on \((b,c)\), forcing \(d=e=0\) — impossible, since one \(0\) can't lie in two disjoint intervals.</p>
+      <div class="label">At least two 至少两解 — by continuity 连续性</div>
+      <p>\(f(0)=-1<0\), and \(f(\pi)=f(-\pi)=\pi^2+1>0\). The curve crosses the \(x\)-axis once in \((-\pi,0)\) and once in \((0,\pi)\). Hence <strong>exactly two</strong> solutions. <span style="font-family:'Noto Sans SC',sans-serif;font-size:14px;color:var(--ink-soft)">(可用介值定理 Intermediate Value Theorem 严格化)</span></p>
+    </div>
+  </div>
+
+  <!-- EX4 -->
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 4</span><span class="extitle">Estimate \(f(1)\) with the MVT</span><span class="excn">用中值定理估值</span></div>
+    <div class="ex-body">
+      <p>Given \(f(0)=2\) and \(f'(x)=\dfrac{1}{5-x^2}\) on \((0,1)\). By the MVT, \(f(1)=2+f'(c)\) for some \(c\in(0,1)\). Since \(0<c<1\):</p>
+      <div class="mbox">\[ \frac{1}{5}<\frac{1}{5-c^2}<\frac{1}{4}\;\Rightarrow\; 2.2<f(1)<2.25 \]</div>
+      <p>So \(f(1)\approx 2.2\) to one decimal place. <span style="font-family:'Noto Sans SC',sans-serif;font-size:14px;color:var(--ink-soft)">把 \(c\) 的范围转成导数范围，再夹出 \(f(1)\)。</span></p>
+    </div>
+  </div>
+
+  <!-- EX5 -->
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 5</span><span class="extitle">Prove \(\tfrac19<\sqrt{66}-8<\tfrac18\)</span><span class="excn">用中值定理证明不等式</span></div>
+    <div class="ex-body">
+      <p>Let \(f(x)=\sqrt x\), so \(f'(x)=\dfrac{1}{2\sqrt x}\). Apply the MVT on \((64,66)\):</p>
+      <div class="mbox">\[ \frac{1}{2\sqrt c}=\frac{\sqrt{66}-8}{2}\;\Rightarrow\;\sqrt{66}-8=\frac{1}{\sqrt c} \]</div>
+      <p>Since \(64<c<66\), we have \(8<\sqrt c<9\), so \(\tfrac19<\tfrac{1}{\sqrt c}<\tfrac18\). Done. \(\blacksquare\)</p>
+    </div>
+  </div>
+
+  <!-- EX6 -->
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 6</span><span class="extitle">Proving the consequences (a)–(d)</span><span class="excn">推论的证明</span></div>
+    <div class="ex-body">
+      <p>For \(x_1<x_2\), the MVT on \((x_1,x_2)\) gives \(f(x_2)-f(x_1)=f'(c)(x_2-x_1)\). The sign of \(f'(c)\) then dictates monotonicity. 由导数符号决定 \(f(x_2)-f(x_1)\) 的符号，得到增/减/常值。</p>
+      <p>For (d): set \(h=f-g\), then \(h'=0\) everywhere, so by (c) \(h\) is constant: \(f(x)=g(x)+C\). 这就是积分"+C"的根源。</p>
+    </div>
+  </div>
+
+  <!-- EX7 -->
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 7</span><span class="extitle">Rolle ⇒ MVT (the conjugation trick)</span><span class="excn">用罗尔定理证明中值定理</span></div>
+    <div class="ex-body">
+      <p>Define the tilted function</p>
+      <div class="mbox">\[ h(x)=f(x)-(x-a)\frac{f(b)-f(a)}{b-a} \]</div>
+      <p>Then \(h(a)=h(b)=f(a)\), so Rolle gives \(h'(c)=0\) for some \(c\). Since \(h'(c)=f'(c)-\dfrac{f(b)-f(a)}{b-a}\), the MVT follows. \(\blacksquare\)</p>
+      <p class="note">Idea: tilt the curve so its endpoints are level, apply the easy case (Rolle), then untilt. This is the <span class="t"><strong>Conjugation Principle</strong><span class="cn">共轭原理</span></span> — transform a hard problem into an easy one, solve, then transform back. 把曲线"压平"成罗尔定理的特例，解完再变回去。</p>
+    </div>
+  </div>
+
+  <div class="endnote">
+    END OF NOTES · 笔记完 · The University of Sydney — Introduction to Advanced Calculus
+  </div>
+
+</div>
+</body>
+</html>
