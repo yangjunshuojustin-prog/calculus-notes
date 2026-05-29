@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Calculus M1V3 — Differentiation Rules · 中英对照学习笔记</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Spectral:wght@300;400;500;600&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+  :root{
+    --paper:#f4efe6;
+    --paper2:#ece4d6;
+    --ink:#2b2620;
+    --ink-soft:#5c544a;
+    --accent:#9b2c20;
+    --accent2:#1f5c54;
+    --gold:#a67c2e;
+    --rule:#d3c9b6;
+    --hl:#fbf3d9;
+    --cn:#1f5c54;
+    --shadow:rgba(43,38,32,0.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:'Spectral',Georgia,serif;font-weight:400;line-height:1.7;font-size:17px;}
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(var(--paper2) 1px, transparent 1px);background-size:4px 4px;opacity:0.4;}
+  .wrap{max-width:820px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
+  header{padding:64px 0 36px;text-align:center;border-bottom:2px solid var(--ink)}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:18px;}
+  header h1{font-family:'Newsreader',serif;font-weight:500;font-size:clamp(30px,5.5vw,46px);line-height:1.12;letter-spacing:-0.5px;margin-bottom:8px;}
+  header .h1cn{font-family:'Noto Sans SC',sans-serif;font-weight:500;font-size:18px;color:var(--accent2);letter-spacing:2px;margin-bottom:18px;}
+  header .meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-soft);letter-spacing:1px;}
+  header .seal{display:inline-block;margin-top:20px;width:46px;height:46px;line-height:46px;border:2px solid var(--accent);color:var(--accent);border-radius:8px;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:20px;transform:rotate(-4deg);}
+  .part-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin:56px 0 6px;text-align:center;}
+  .part-title{font-family:'Newsreader',serif;font-weight:500;font-size:30px;text-align:center;margin-bottom:6px;}
+  .part-title-cn{font-family:'Noto Sans SC',sans-serif;font-size:15px;color:var(--accent2);text-align:center;letter-spacing:3px;margin-bottom:8px;}
+  .part-rule{width:60px;height:2px;background:var(--accent);margin:0 auto 36px}
+  .concept{background:rgba(255,253,248,0.6);border:1px solid var(--rule);border-left:3px solid var(--accent2);border-radius:4px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 0 var(--shadow);}
+  .concept h3{font-family:'Newsreader',serif;font-weight:600;font-size:21px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px;}
+  .concept h3 .num{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--accent);font-weight:600;}
+  .concept h3 .cn{font-family:'Noto Sans SC',sans-serif;font-weight:500;font-size:15px;color:var(--cn);letter-spacing:1px;}
+  .concept p{margin:10px 0;color:var(--ink)}
+  .concept p.note{font-size:15px;color:var(--ink-soft);font-style:italic}
+  .t{white-space:nowrap}
+  .t .cn{font-family:'Noto Sans SC',sans-serif;font-size:0.82em;color:var(--cn);font-style:normal;}
+  .t .cn::before{content:'（'}
+  .t .cn::after{content:'）'}
+  .mbox{background:var(--paper2);border-radius:4px;padding:6px 16px;margin:14px 0;overflow-x:auto;border:1px solid var(--rule);}
+  .key{background:linear-gradient(180deg,var(--hl),#f7edd0);border:1px solid var(--gold);border-radius:6px;padding:22px 26px;margin:22px 0;position:relative;}
+  .key::before{content:'★ KEY';position:absolute;top:-11px;left:22px;background:var(--gold);color:#fff;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;padding:3px 10px;border-radius:10px;}
+  .key h4{font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:16px;color:var(--accent);margin-bottom:8px;}
+  .ex{border:1px solid var(--rule);border-radius:4px;margin-bottom:24px;overflow:hidden;background:rgba(255,253,248,0.5);}
+  .ex-head{background:var(--ink);color:var(--paper);padding:12px 24px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .ex-head .exnum{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:1px;}
+  .ex-head .extitle{font-family:'Newsreader',serif;font-size:18px;font-weight:500}
+  .ex-head .excn{font-family:'Noto Sans SC',sans-serif;font-size:13px;color:#c9bfa8;margin-left:auto;letter-spacing:1px;}
+  .ex-body{padding:20px 26px}
+  .ex-body .label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent2);margin:14px 0 4px;}
+  .ex-body .label:first-child{margin-top:0}
+  table.cand{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+  table.cand th,table.cand td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule);}
+  table.cand th{font-family:'Noto Sans SC',sans-serif;font-weight:500;font-size:13px;color:var(--accent2);background:var(--paper2);}
+  table.cand tr.hot td{background:var(--hl)}
+  .endnote{margin:48px 0 64px;padding-top:24px;border-top:2px solid var(--ink);font-size:14px;color:var(--ink-soft);text-align:center;font-family:'JetBrains Mono',monospace;letter-spacing:1px;}
+  strong{font-weight:600;color:var(--accent)}
+  .toc{background:rgba(255,253,248,0.7);border:1px solid var(--rule);border-radius:4px;padding:20px 28px;margin:32px 0 8px;}
+  .toc h2{font-family:'Noto Sans SC',sans-serif;font-size:14px;letter-spacing:2px;color:var(--accent);margin-bottom:12px;font-weight:700;}
+  .toc ol{list-style:none;counter-reset:toc;column-count:2;column-gap:32px}
+  .toc li{counter-increment:toc;padding:4px 0;font-size:15px;break-inside:avoid;}
+  .toc li::before{content:counter(toc,upper-roman) '. ';color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:12px;}
+  .toc a{color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--rule)}
+  .toc a:hover{color:var(--accent);border-color:var(--accent)}
+  @media(max-width:560px){.toc ol{column-count:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">The University of Sydney · MOOC Advanced Calculus</div>
+    <h1>M1V3 — Differentiation Rules</h1>
+    <div class="h1cn">求导法则 · 中英对照精读笔记</div>
+    <div class="meta">CORE RULES &amp; WORKED EXAMPLES · ANNOTATED EDITION</div>
+    <div class="seal">微</div>
+  </header>
+
+  <div class="toc">
+    <h2>目录 · CONTENTS</h2>
+    <ol>
+      <li><a href="#c1">Definition of derivative 导数定义</a></li>
+      <li><a href="#c2">Power Rule 幂法则</a></li>
+      <li><a href="#c3">Constant &amp; Sum Rules 常数与和法则</a></li>
+      <li><a href="#c4">Product Rule 乘积法则</a></li>
+      <li><a href="#c5">Quotient Rule 商法则</a></li>
+      <li><a href="#c6">Chain Rule 链式法则</a></li>
+      <li><a href="#examples">Worked Examples 例题精解</a></li>
+    </ol>
+  </div>
+
+  <div class="part-label">Part I</div>
+  <div class="part-title">Core Rules &amp; Useful Facts</div>
+  <div class="part-title-cn">核心法则与重要事实</div>
+  <div class="part-rule"></div>
+
+  <div class="concept" id="c1">
+    <h3><span class="num">i</span> Definition of the Derivative <span class="cn">导数的定义</span></h3>
+    <p>The <span class="t"><strong>derivative</strong><span class="cn">导数</span></span> of \(f\) at \(x\) is the limit of the average rate of change as the interval shrinks to zero:</p>
+    <div class="mbox">\[ f'(x)=\lim_{h\to 0}\frac{f(x+h)-f(x)}{h} \]</div>
+    <p>Geometrically it is the <span class="t">slope of the tangent line<span class="cn">切线斜率</span></span> at the point \(\big(x,f(x)\big)\). 导数就是切线的斜率。</p>
+    <p class="note">All the rules below are shortcuts that save us from computing this limit every time. 下面所有法则都是为了省去每次都算极限的麻烦。</p>
+  </div>
+
+  <div class="concept" id="c2">
+    <h3><span class="num">ii</span> The Power Rule <span class="cn">幂法则</span></h3>
+    <p>For any real exponent \(n\):</p>
+    <div class="mbox">\[ \frac{d}{dx}\,x^{n}=n\,x^{n-1} \]</div>
+    <p>Bring the power down in front, then subtract one from the power. 把指数拿到前面当系数，再把指数减一。</p>
+    <p class="note">Works for negative and fractional powers too: \(\frac{d}{dx}\sqrt{x}=\frac{d}{dx}x^{1/2}=\frac{1}{2}x^{-1/2}\). 负指数、分数指数同样适用。</p>
+  </div>
+
+  <div class="concept" id="c3">
+    <h3><span class="num">iii</span> Constant &amp; Sum Rules <span class="cn">常数法则与和法则</span></h3>
+    <p>Constants pull out, and derivatives split across sums:</p>
+    <div class="mbox">\[ (c\,f)'=c\,f', \qquad (f+g)'=f'+g' \]</div>
+    <p>The derivative of a constant alone is <strong>zero</strong>, since a flat line has no slope. 常数的导数为零——水平线没有斜率。</p>
+  </div>
+
+  <div class="concept" id="c4">
+    <h3><span class="num">iv</span> The Product Rule <span class="cn">乘积法则</span></h3>
+    <p>The derivative of a product is <strong>not</strong> the product of derivatives. Instead:</p>
+    <div class="mbox">\[ (uv)' = u'v + uv' \]</div>
+    <p>"Derivative of the first times the second, plus the first times derivative of the second." 前导后不导，加前不导后导。</p>
+    <div class="key">
+      <h4>⚠️ 最常见的错误</h4>
+      <p style="font-family:'Noto Sans SC',sans-serif;font-size:15px;margin:0">很多人会写成 \((uv)'=u'v'\)，<strong style="color:var(--accent)">这是错的</strong>！乘积法则必须有<strong style="color:var(--accent)">两项相加</strong>。</p>
+    </div>
+  </div>
+
+  <div class="concept" id="c5">
+    <h3><span class="num">v</span> The Quotient Rule <span class="cn">商法则</span></h3>
+    <p>For a quotient \(\dfrac{u}{v}\):</p>
+    <div class="mbox">\[ \left(\frac{u}{v}\right)' = \frac{u'v - uv'}{v^{2}} \]</div>
+    <p>"Low d-high minus high d-low, over low squared." 低乘高导，减高乘低导，除以低的平方。</p>
+    <p class="note">Order matters! The numerator is \(u'v-uv'\), <strong>not</strong> \(uv'-u'v\) — swapping them flips the sign. 顺序不能反，否则差一个负号。</p>
+  </div>
+
+  <div class="concept" id="c6">
+    <h3><span class="num">vi</span> The Chain Rule <span class="cn">链式法则</span></h3>
+    <p>For a <span class="t">composite function<span class="cn">复合函数</span></span> \(f\big(g(x)\big)\):</p>
+    <div class="mbox">\[ \frac{d}{dx}f\big(g(x)\big) = f'\big(g(x)\big)\cdot g'(x) \]</div>
+    <p>Differentiate the <strong>outer</strong> function, keep the inside unchanged, then multiply by the derivative of the <strong>inside</strong>. 先导外层、内层不变，再乘以内层的导数。</p>
+    <p class="note">🧅 Think of peeling an onion: work from the outside in, multiplying as you go. 像剥洋葱，由外向内逐层相乘。</p>
+  </div>
+
+  <div class="part-label" id="examples">Part II</div>
+  <div class="part-title">Worked Examples</div>
+  <div class="part-title-cn">例题精解</div>
+  <div class="part-rule"></div>
+
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 1</span><span class="extitle">Power rule on a polynomial</span><span class="excn">幂法则求多项式</span></div>
+    <div class="ex-body">
+      <p>Differentiate \(f(x)=3x^4-5x^2+7x-9\).</p>
+      <div class="label">Apply term by term 逐项求导</div>
+      <div class="mbox">\[ f'(x)=12x^3-10x+7 \]</div>
+      <p>The constant \(-9\) vanishes. 常数项 \(-9\) 求导后消失。</p>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 2</span><span class="extitle">Product rule</span><span class="excn">乘积法则</span></div>
+    <div class="ex-body">
+      <p>Differentiate \(f(x)=x^2\sin x\). Let \(u=x^2,\;v=\sin x\), so \(u'=2x,\;v'=\cos x\).</p>
+      <div class="mbox">\[ f'(x)=2x\sin x + x^2\cos x \]</div>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 3 ★</span><span class="extitle">Quotient rule</span><span class="excn">商法则</span></div>
+    <div class="ex-body">
+      <p>Differentiate \(f(x)=\dfrac{x^3}{x^2+1}\). Here \(u=x^3,\;v=x^2+1\), so \(u'=3x^2,\;v'=2x\).</p>
+      <div class="label">Plug into the formula 代入公式</div>
+      <div class="mbox">\[ f'(x)=\frac{3x^2(x^2+1)-x^3(2x)}{(x^2+1)^2}=\frac{x^4+3x^2}{(x^2+1)^2} \]</div>
+      <p>This is exactly the practice problem from your study session. 这正是你之前练习的那道题。</p>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 4</span><span class="extitle">Chain rule</span><span class="excn">链式法则</span></div>
+    <div class="ex-body">
+      <p>Differentiate \(f(x)=(3x^2+1)^5\). Outer \(=(\cdot)^5\), inner \(=3x^2+1\).</p>
+      <div class="mbox">\[ f'(x)=5(3x^2+1)^4\cdot 6x = 30x(3x^2+1)^4 \]</div>
+      <p>Outer derivative \(5(\cdot)^4\), times inner derivative \(6x\). 外层导数乘内层导数。</p>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 5</span><span class="extitle">Inverse-function trick: \(\tan^{-1}y\)</span><span class="excn">反函数求导</span></div>
+    <div class="ex-body">
+      <p>Given \(y=\tan x\), find \(\dfrac{dx}{dy}\). Recall the inverse rule \(\dfrac{dx}{dy}=\dfrac{1}{dy/dx}\).</p>
+      <div class="mbox">\[ \frac{dy}{dx}=\sec^2 x \;\Rightarrow\; \frac{dx}{dy}=\frac{1}{\sec^2 x}=\cos^2 x \]</div>
+      <p>This matches the handwritten example you studied. 与你手写笔记中的例子一致。</p>
+    </div>
+  </div>
+
+  <div class="endnote">
+    END OF NOTES · 笔记完 · Differentiation Rules
+  </div>
+
+</div>
+</body>
+</html>
