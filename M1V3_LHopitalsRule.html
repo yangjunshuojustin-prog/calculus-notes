@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Calculus M1V3 — L'Hôpital's Rule &amp; Rates of Growth · 中英对照学习笔记</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Spectral:wght@300;400;500;600&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+  :root{
+    --paper:#f4efe6;
+    --paper2:#ece4d6;
+    --ink:#2b2620;
+    --ink-soft:#5c544a;
+    --accent:#9b2c20;
+    --accent2:#1f5c54;
+    --gold:#a67c2e;
+    --rule:#d3c9b6;
+    --hl:#fbf3d9;
+    --cn:#1f5c54;
+    --shadow:rgba(43,38,32,0.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:'Spectral',Georgia,serif;font-weight:400;line-height:1.7;font-size:17px;}
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(var(--paper2) 1px, transparent 1px);background-size:4px 4px;opacity:0.4;}
+  .wrap{max-width:820px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
+  header{padding:64px 0 36px;text-align:center;border-bottom:2px solid var(--ink)}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:18px;}
+  header h1{font-family:'Newsreader',serif;font-weight:500;font-size:clamp(30px,5.5vw,46px);line-height:1.12;letter-spacing:-0.5px;margin-bottom:8px;}
+  header .h1cn{font-family:'Noto Sans SC',sans-serif;font-weight:500;font-size:18px;color:var(--accent2);letter-spacing:2px;margin-bottom:18px;}
+  header .meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-soft);letter-spacing:1px;}
+  header .seal{display:inline-block;margin-top:20px;width:46px;height:46px;line-height:46px;border:2px solid var(--accent);color:var(--accent);border-radius:8px;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:20px;transform:rotate(-4deg);}
+  .part-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin:56px 0 6px;text-align:center;}
+  .part-title{font-family:'Newsreader',serif;font-weight:500;font-size:30px;text-align:center;margin-bottom:6px;}
+  .part-title-cn{font-family:'Noto Sans SC',sans-serif;font-size:15px;color:var(--accent2);text-align:center;letter-spacing:3px;margin-bottom:8px;}
+  .part-rule{width:60px;height:2px;background:var(--accent);margin:0 auto 36px}
+  .concept{background:rgba(255,253,248,0.6);border:1px solid var(--rule);border-left:3px solid var(--accent2);border-radius:4px;padding:24px 28px;margin-bottom:22px;box-shadow:0 1px 0 var(--shadow);}
+  .concept h3{font-family:'Newsreader',serif;font-weight:600;font-size:21px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px;}
+  .concept h3 .num{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--accent);font-weight:600;}
+  .concept h3 .cn{font-family:'Noto Sans SC',sans-serif;font-weight:500;font-size:15px;color:var(--cn);letter-spacing:1px;}
+  .concept p{margin:10px 0;color:var(--ink)}
+  .concept p.note{font-size:15px;color:var(--ink-soft);font-style:italic}
+  .t{white-space:nowrap}
+  .t .cn{font-family:'Noto Sans SC',sans-serif;font-size:0.82em;color:var(--cn);font-style:normal;}
+  .t .cn::before{content:'（'}
+  .t .cn::after{content:'）'}
+  .mbox{background:var(--paper2);border-radius:4px;padding:6px 16px;margin:14px 0;overflow-x:auto;border:1px solid var(--rule);}
+  .key{background:linear-gradient(180deg,var(--hl),#f7edd0);border:1px solid var(--gold);border-radius:6px;padding:22px 26px;margin:22px 0;position:relative;}
+  .key::before{content:'★ KEY';position:absolute;top:-11px;left:22px;background:var(--gold);color:#fff;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;padding:3px 10px;border-radius:10px;}
+  .key h4{font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:16px;color:var(--accent);margin-bottom:8px;}
+  .warn{background:linear-gradient(180deg,#f6e3df,#f2d9d4);border:1px solid var(--accent);border-radius:6px;padding:22px 26px;margin:22px 0;position:relative;}
+  .warn::before{content:'⚠ WARNING';position:absolute;top:-11px;left:22px;background:var(--accent);color:#fff;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;padding:3px 10px;border-radius:10px;}
+  .warn h4{font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:16px;color:var(--accent);margin-bottom:8px;}
+  .ex{border:1px solid var(--rule);border-radius:4px;margin-bottom:24px;overflow:hidden;background:rgba(255,253,248,0.5);}
+  .ex-head{background:var(--ink);color:var(--paper);padding:12px 24px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .ex-head .exnum{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:1px;}
+  .ex-head .extitle{font-family:'Newsreader',serif;font-size:18px;font-weight:500}
+  .ex-head .excn{font-family:'Noto Sans SC',sans-serif;font-size:13px;color:#c9bfa8;margin-left:auto;letter-spacing:1px;}
+  .ex-body{padding:20px 26px}
+  .ex-body .label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent2);margin:14px 0 4px;}
+  .ex-body .label:first-child{margin-top:0}
+  table.cand{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+  table.cand th,table.cand td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule);}
+  table.cand th{font-family:'Noto Sans SC',sans-serif;font-weight:500;font-size:13px;color:var(--accent2);background:var(--paper2);}
+  table.cand tr.hot td{background:var(--hl)}
+  .endnote{margin:48px 0 64px;padding-top:24px;border-top:2px solid var(--ink);font-size:14px;color:var(--ink-soft);text-align:center;font-family:'JetBrains Mono',monospace;letter-spacing:1px;}
+  strong{font-weight:600;color:var(--accent)}
+  .toc{background:rgba(255,253,248,0.7);border:1px solid var(--rule);border-radius:4px;padding:20px 28px;margin:32px 0 8px;}
+  .toc h2{font-family:'Noto Sans SC',sans-serif;font-size:14px;letter-spacing:2px;color:var(--accent);margin-bottom:12px;font-weight:700;}
+  .toc ol{list-style:none;counter-reset:toc;column-count:2;column-gap:32px}
+  .toc li{counter-increment:toc;padding:4px 0;font-size:15px;break-inside:avoid;}
+  .toc li::before{content:counter(toc,upper-roman) '. ';color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:12px;}
+  .toc a{color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--rule)}
+  .toc a:hover{color:var(--accent);border-color:var(--accent)}
+  .growth{display:flex;flex-direction:column;gap:8px;margin:16px 0}
+  .growth .row{display:flex;align-items:center;gap:12px;background:var(--paper2);border:1px solid var(--rule);border-radius:4px;padding:10px 16px;}
+  .growth .rank{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);font-weight:600;min-width:20px}
+  .growth .fn{font-family:'Newsreader',serif;font-size:17px}
+  .growth .desc{font-family:'Noto Sans SC',sans-serif;font-size:13px;color:var(--ink-soft);margin-left:auto}
+  @media(max-width:560px){.toc ol{column-count:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">The University of Sydney · MOOC Advanced Calculus</div>
+    <h1>M1V3 — L'Hôpital's Rule &amp; Rates of Growth</h1>
+    <div class="h1cn">洛必达法则与增长速率 · 中英对照精读笔记</div>
+    <div class="meta">IMPORTANT IDEAS, EXAMPLES &amp; ALGORITHM ANALYSIS · ANNOTATED EDITION</div>
+    <div class="seal">微</div>
+  </header>
+
+  <div class="toc">
+    <h2>目录 · CONTENTS</h2>
+    <ol>
+      <li><a href="#c1">L'Hôpital 0/0 form 零比零型</a></li>
+      <li><a href="#c2">L'Hôpital ∞/∞ form 无穷比无穷型</a></li>
+      <li><a href="#c3">Algorithm running times 算法运行时间</a></li>
+      <li><a href="#c4">Comparing growth 增长速率比较</a></li>
+      <li><a href="#examples">Worked Examples 例题精解</a></li>
+      <li><a href="#hierarchy">Growth Hierarchy 增长速率排序</a></li>
+    </ol>
+  </div>
+
+  <div class="part-label">Part I</div>
+  <div class="part-title">Important Ideas &amp; Useful Facts</div>
+  <div class="part-title-cn">重要思想与有用事实</div>
+  <div class="part-rule"></div>
+
+  <div class="concept" id="c1">
+    <h3><span class="num">i</span> L'Hôpital's Rule — the \(\tfrac{0}{0}\) form <span class="cn">零比零型</span></h3>
+    <p>Suppose \(\displaystyle\lim f(x)=\lim g(x)=0\), and \(\displaystyle\lim \frac{f'(x)}{g'(x)}\) exists (finite, \(\infty\), or \(-\infty\)). Then:</p>
+    <div class="mbox">\[ \lim \frac{f(x)}{g(x)} = \lim \frac{f'(x)}{g'(x)} \]</div>
+    <p>The limit may be two-sided (\(x\to a\)), one-sided (\(x\to a^+\) or \(x\to a^-\)), or at infinity (\(x\to\pm\infty\)). 极限可以是双侧、单侧或趋于无穷。</p>
+    <p class="note">The power of the rule: a complicated fraction's difficulty often dissolves — completely or in stages — by differentiating top and bottom. 妙处在于：对分子分母分别求导后，复杂的极限往往会层层化简。</p>
+  </div>
+
+  <div class="concept" id="c2">
+    <h3><span class="num">ii</span> L'Hôpital's Rule — the \(\tfrac{\infty}{\infty}\) form <span class="cn">无穷比无穷型</span></h3>
+    <p>Suppose instead \(\displaystyle\lim f(x)=\lim g(x)=\infty\), and \(\displaystyle\lim \frac{f'(x)}{g'(x)}\) exists. Then the same conclusion holds:</p>
+    <div class="mbox">\[ \lim \frac{f(x)}{g(x)} = \lim \frac{f'(x)}{g'(x)} \]</div>
+    <p>This form is especially useful for comparing rates of growth. 这一形式在比较增长速率时特别有用。</p>
+  </div>
+
+  <div class="concept" id="c3">
+    <h3><span class="num">iii</span> Running times of algorithms <span class="cn">算法运行时间</span></h3>
+    <p>An algorithm's running time \(T=T(N)\) estimates the number of steps for input size \(N\), and typically \(\displaystyle\lim_{N\to\infty}T(N)=\infty\). 运行时间 \(T(N)\) 表示输入规模为 \(N\) 时的步骤数，通常随 \(N\) 增大而趋于无穷。</p>
+    <p>To compare two programs with running times \(f(N)\) and \(g(N)\), we study the asymptotic limit:</p>
+    <div class="mbox">\[ \lim_{N\to\infty}\frac{f(N)}{g(N)} \]</div>
+    <p>treating \(N\) as a real variable and applying calculus — L'Hôpital's Rule is ideal here. 把 \(N\) 当作实变量处理，用微积分（尤其洛必达法则）来分析。</p>
+  </div>
+
+  <div class="concept" id="c4">
+    <h3><span class="num">iv</span> Interpreting the comparison <span class="cn">如何解读比较结果</span></h3>
+    <p>With \(\displaystyle\lim_{N\to\infty}f(N)=\lim_{N\to\infty}g(N)=\infty\):</p>
+    <table class="cand">
+      <tr><th>极限结果</th><th>含义 Meaning</th></tr>
+      <tr><td>\(\lim \frac{f}{g}=0\)</td><td>\(f\) 增长更慢 → \(f\) 的算法<strong>更快/更高效</strong></td></tr>
+      <tr><td>\(\lim \frac{f}{g}=\infty\)</td><td>\(f\) 增长更快 → \(f\) 的算法<strong>更慢/更低效</strong></td></tr>
+      <tr class="hot"><td>\(\lim \frac{f}{g}=K>0\)</td><td>两者增长<strong>速度相当</strong>（效率可比）</td></tr>
+    </table>
+    <p class="note">Note: \(\lim \frac{f}{g}=0\) if and only if \(\lim \frac{g}{f}=\infty\). 注意这两个说法等价。Sometimes the limit does not exist, and one falls back on bounds or approximations. 有时极限不存在，则需借助上下界或近似。</p>
+  </div>
+
+  <div class="part-label" id="examples">Part II</div>
+  <div class="part-title">Worked Examples</div>
+  <div class="part-title-cn">例题精解</div>
+  <div class="part-rule"></div>
+
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 1</span><span class="extitle">A 0/0 limit, with a check</span><span class="excn">零比零型并验证</span></div>
+    <div class="ex-body">
+      <p>Since \(\lim_{x\to2}(x^2-4)=\lim_{x\to2}(x-2)=0\), apply the \(\tfrac{0}{0}\) form:</p>
+      <div class="mbox">\[ \lim_{x\to2}\frac{x^2-4}{x-2}=\lim_{x\to2}\frac{2x}{1}=\frac{2(2)}{1}=4 \]</div>
+      <div class="label">Check by factoring 用因式分解验证</div>
+      <div class="mbox">\[ \lim_{x\to2}\frac{(x+2)(x-2)}{x-2}=\lim_{x\to2}(x+2)=4 \]</div>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 2</span><span class="extitle">Applying the rule twice</span><span class="excn">两次应用法则</span></div>
+    <div class="ex-body">
+      <p>Both numerator and denominator vanish at \(x=-1\), so apply \(\tfrac{0}{0}\) — and the result still vanishes, so apply again:</p>
+      <div class="mbox">\[ \lim_{x\to-1}\frac{x^3-3x-2}{x^3+x^2-x-1}=\lim_{x\to-1}\frac{3x^2-3}{3x^2+2x-1}=\lim_{x\to-1}\frac{6x}{6x+2}=\frac{-6}{-4}=\frac{3}{2} \]</div>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 3 ★</span><span class="extitle">The famous limit sin x / x</span><span class="excn">著名极限</span></div>
+    <div class="ex-body">
+      <p>Since \(\lim_{x\to0}\sin x=\lim_{x\to0}x=0\):</p>
+      <div class="mbox">\[ \lim_{x\to0}\frac{\sin x}{x}=\lim_{x\to0}\frac{\cos x}{1}=\cos 0 = 1 \]</div>
+      <p class="note">This recovers the foundational limit of trigonometric calculus, normally hard to prove directly via the squeeze theorem. 这正是三角函数微积分的基础极限，直接用夹逼定理证明相当困难。</p>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 4</span><span class="extitle">One-sided limits to ±∞</span><span class="excn">单侧极限趋于正负无穷</span></div>
+    <div class="ex-body">
+      <div class="mbox">\[ \lim_{x\to1^+}\frac{\ln x}{(x-1)^2}=\lim_{x\to1^+}\frac{1/x}{2(x-1)}=\lim_{x\to1^+}\frac{1}{2x(x-1)}=+\infty \]</div>
+      <p>From below, \(x-1<0\), so the same calculation gives \(-\infty\). 从左侧逼近时 \(x-1<0\)，结果为 \(-\infty\)。</p>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 5 ⚠</span><span class="extitle">Must check the form first!</span><span class="excn">必须先检查形式</span></div>
+    <div class="ex-body">
+      <div class="warn">
+        <h4>不检查就求导 = 出错</h4>
+        <p style="font-family:'Noto Sans SC',sans-serif;font-size:15px;margin:0">应用 \(\tfrac{0}{0}\) 形式前，<strong style="color:var(--accent)">必须确认分子分母都趋于零</strong>。盲目反复求导会得到错误答案。</p>
+      </div>
+      <p>After one valid step, the form is no longer \(\tfrac{0}{0}\) — so evaluate directly:</p>
+      <div class="mbox">\[ \lim_{x\to1}\frac{x^3-2x+1}{x^2+x-2}=\lim_{x\to1}\frac{3x^2-2}{2x+1}=\frac{3-2}{2+1}=\frac{1}{3} \]</div>
+      <p class="note">The wrong answer \(3\) comes from differentiating a second time when the form was no longer indeterminate. 错误答案 3 源于在已非未定式时又多求了一次导。</p>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 6</span><span class="extitle">Exponential beats polynomial</span><span class="excn">指数增长压倒多项式</span></div>
+    <div class="ex-body">
+      <div class="mbox">\[ \lim_{x\to\infty}\frac{e^x}{x^2+3x+4}=\lim_{x\to\infty}\frac{e^x}{2x+3}=\lim_{x\to\infty}\frac{e^x}{2}=\infty \]</div>
+      <p>In general \(\lim_{x\to\infty}\frac{e^x}{p(x)}=\infty\) for any polynomial \(p\) with positive leading term: <strong>"exponential growth outstrips polynomial growth."</strong> 指数增长压倒任何多项式增长。</p>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 7</span><span class="extitle">Logarithm grows slower than linear</span><span class="excn">对数比线性慢</span></div>
+    <div class="ex-body">
+      <div class="mbox">\[ \lim_{x\to\infty}\frac{\ln x}{x}=\lim_{x\to\infty}\frac{1/x}{1}=0 \]</div>
+      <p><strong>"Logarithmic growth is slower than linear growth."</strong> 对数增长比线性增长慢。</p>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 8</span><span class="extitle">When L'Hôpital fails</span><span class="excn">洛必达失效的情形</span></div>
+    <div class="ex-body">
+      <p>For \(\lim_{x\to\infty}\frac{\sqrt{1+x^2}}{x}\), L'Hôpital just flips numerator and denominator back and forth — no progress. 反复应用只会把分子分母翻来翻去，毫无进展。</p>
+      <div class="label">Instead, manipulate directly 改用直接变形</div>
+      <div class="mbox">\[ \lim_{x\to\infty}\frac{\sqrt{1+x^2}}{x}=\lim_{x\to\infty}\sqrt{\frac{1}{x^2}+1}=\sqrt{0+1}=1 \]</div>
+      <p class="note">Moral: L'Hôpital is powerful but not a cure-all — sometimes another technique is needed. 洛必达虽强，但并非万能，有时需另辟蹊径。</p>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-head"><span class="exnum">EX 9</span><span class="extitle">Algorithm comparison: 2^N vs N²</span><span class="excn">算法比较</span></div>
+    <div class="ex-body">
+      <p>Compare \(f(N)=2^N\) and \(g(N)=N^2+5N+3\):</p>
+      <div class="mbox">\[ \lim_{N\to\infty}\frac{N^2+5N+3}{2^N}=\lim_{N\to\infty}\frac{2N+5}{(\ln 2)2^N}=\lim_{N\to\infty}\frac{2}{(\ln 2)^2\,2^N}=0 \]</div>
+      <p>So \(f(N)=2^N\) <strong>grows faster</strong> — the polynomial-time algorithm is far more efficient. 指数时间增长更快，多项式时间的算法效率高得多。</p>
+    </div>
+  </div>
+
+  <div class="part-label" id="hierarchy">Part III</div>
+  <div class="part-title">The Growth Hierarchy</div>
+  <div class="part-title-cn">增长速率排序（由慢到快）</div>
+  <div class="part-rule"></div>
+
+  <div class="growth">
+    <div class="row"><span class="rank">1</span><span class="fn">\((\ln N)^k\)</span><span class="desc">对数及其幂 · 最慢</span></div>
+    <div class="row"><span class="rank">2</span><span class="fn">\(\sqrt{N},\; N^p\;(0<p<1)\)</span><span class="desc">根号 / 分数次幂</span></div>
+    <div class="row"><span class="rank">3</span><span class="fn">\(N,\; aN+b\)</span><span class="desc">线性</span></div>
+    <div class="row"><span class="rank">4</span><span class="fn">\(N^2,\; p(N)\)</span><span class="desc">多项式</span></div>
+    <div class="row"><span class="rank">5</span><span class="fn">\(2^N,\; e^N\)</span><span class="desc">指数 · 最快</span></div>
+  </div>
+  <p class="note" style="text-align:center;color:var(--ink-soft)">每一层都被它下面一层<strong>压倒</strong>：指数 ≫ 多项式 ≫ 线性 ≫ 根号 ≫ 对数。<br>This ordering is what L'Hôpital's Rule lets us prove rigorously. 这一排序正是洛必达法则能严格证明的。</p>
+
+  <div class="endnote">
+    END OF NOTES · 笔记完 · L'Hôpital's Rule &amp; Rates of Growth
+  </div>
+
+</div>
+</body>
+</html>
