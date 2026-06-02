@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三角函数 & 双曲函数 · 公式手册</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Noto+Serif+SC:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#1f1b16;
+    --ink-soft:#5c5347;
+    --ink-faint:#8a7f6f;
+    --paper:#f4efe6;
+    --paper-2:#ece5d8;
+    --card:#fbf8f1;
+    --line:#ddd3c2;
+    --line-soft:#e7ddcd;
+    --trig:#9c4221;     /* 赭红 */
+    --trig-bg:#f6e7df;
+    --hyp:#1b5e57;      /* 深青 */
+    --hyp-bg:#dfeeea;
+    --gold:#b8860b;
+    --shadow:0 1px 2px rgba(60,45,25,.04), 0 8px 30px rgba(60,45,25,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:
+      radial-gradient(120% 80% at 50% -10%, #f8f3ea 0%, var(--paper) 45%, var(--paper-2) 100%) fixed;
+    color:var(--ink);
+    font-family:"Noto Serif SC","Fraunces",serif;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* faint grid texture */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      linear-gradient(rgba(120,90,40,.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(120,90,40,.025) 1px,transparent 1px);
+    background-size:34px 34px;
+  }
+  .page{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:0 24px 100px}
+
+  /* ---------- header ---------- */
+  header{padding:72px 0 36px;text-align:center;position:relative}
+  .eyebrow{
+    font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.42em;
+    text-transform:uppercase;color:var(--ink-faint);margin-bottom:20px;
+  }
+  h1{
+    font-family:"Fraunces",serif;font-weight:600;font-size:clamp(38px,7vw,68px);
+    line-height:1.04;letter-spacing:-.02em;
+  }
+  h1 .amp{font-style:italic;font-weight:400;color:var(--gold);padding:0 .12em}
+  .sub{margin-top:18px;color:var(--ink-soft);font-size:17px;font-style:italic;font-family:"Fraunces",serif}
+  .rule{width:64px;height:2px;background:var(--ink);margin:30px auto 0;opacity:.5}
+
+  /* ---------- sticky nav ---------- */
+  nav{
+    position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;
+    padding:14px 10px;margin:0 -24px 48px;
+    background:rgba(244,239,230,.82);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  nav a{
+    font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.04em;
+    color:var(--ink-soft);text-decoration:none;padding:6px 12px;border-radius:30px;
+    border:1px solid transparent;transition:.18s;white-space:nowrap;
+  }
+  nav a:hover{color:var(--ink);background:var(--card);border-color:var(--line)}
+
+  /* ---------- section ---------- */
+  section{margin-bottom:64px;scroll-margin-top:80px}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:24px}
+  .sec-num{
+    font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--gold);
+    font-weight:500;letter-spacing:.1em;
+  }
+  .sec-head h2{font-family:"Fraunces",serif;font-weight:500;font-size:30px;letter-spacing:-.01em}
+  .sec-line{flex:1;height:1px;background:var(--line);align-self:center}
+
+  /* ---------- compare grid ---------- */
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  @media(max-width:720px){.pair{grid-template-columns:1fr}}
+  .col{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:22px 24px 14px;box-shadow:var(--shadow);position:relative;overflow:hidden;
+  }
+  .col::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+  .col.trig::before{background:var(--trig)}
+  .col.hyp::before{background:var(--hyp)}
+  .tag{
+    display:inline-flex;align-items:center;gap:7px;font-family:"JetBrains Mono",monospace;
+    font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;
+    padding:5px 11px;border-radius:20px;margin-bottom:16px;
+  }
+  .col.trig .tag{background:var(--trig-bg);color:var(--trig)}
+  .col.hyp  .tag{background:var(--hyp-bg);color:var(--hyp)}
+  .tag .dot{width:7px;height:7px;border-radius:50%}
+  .col.trig .dot{background:var(--trig)}
+  .col.hyp  .dot{background:var(--hyp)}
+
+  .full{grid-column:1/-1}
+
+  /* ---------- formula rows ---------- */
+  .f{
+    display:flex;align-items:center;justify-content:space-between;gap:18px;
+    padding:11px 0;border-bottom:1px solid var(--line-soft);
+  }
+  .f:last-child{border-bottom:none}
+  .f .lbl{font-size:14px;color:var(--ink-faint);font-family:"JetBrains Mono",monospace;flex-shrink:0}
+  .f .eq{font-size:17px;text-align:right;flex:1;overflow-x:auto}
+  .f.center .eq{text-align:center}
+  .katex{font-size:1.05em}
+
+  /* single column listing */
+  .list .f .eq{text-align:left;font-size:18px}
+
+  .note{
+    margin-top:14px;padding:12px 16px;border-left:3px solid var(--gold);
+    background:rgba(184,134,11,.06);border-radius:0 8px 8px 0;
+    font-size:14px;color:var(--ink-soft);font-style:italic;
+  }
+  .note b{color:var(--ink);font-style:normal;font-weight:600}
+
+  footer{
+    text-align:center;color:var(--ink-faint);font-size:13px;
+    font-family:"JetBrains Mono",monospace;letter-spacing:.05em;
+    padding-top:40px;border-top:1px solid var(--line);
+  }
+  footer .heart{color:var(--trig)}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="eyebrow">Reference Card</div>
+    <h1>三角函数 <span class="amp">&amp;</span> 双曲函数</h1>
+    <p class="sub">Trigonometric &amp; Hyperbolic Functions — 完整公式对照手册</p>
+    <div class="rule"></div>
+  </header>
+
+  <nav>
+    <a href="#def">定义</a>
+    <a href="#identity">基本恒等式</a>
+    <a href="#special">特殊值</a>
+    <a href="#add">加法公式</a>
+    <a href="#double">倍角</a>
+    <a href="#half">半角</a>
+    <a href="#prod">积化 / 和差化积</a>
+    <a href="#deriv">导数</a>
+    <a href="#integ">积分</a>
+    <a href="#inverse">反函数</a>
+    <a href="#series">级数展开</a>
+    <a href="#bridge">三角 ↔ 双曲</a>
+  </nav>
+
+  <!-- 1. 定义 -->
+  <section id="def">
+    <div class="sec-head"><span class="sec-num">01</span><h2>定义</h2><span class="sec-line"></span></div>
+    <div class="pair">
+      <div class="col trig">
+        <span class="tag"><span class="dot"></span>三角函数</span>
+        <div class="f"><span class="lbl">sin</span><span class="eq">$\sin x = \dfrac{e^{ix}-e^{-ix}}{2i}$</span></div>
+        <div class="f"><span class="lbl">cos</span><span class="eq">$\cos x = \dfrac{e^{ix}+e^{-ix}}{2}$</span></div>
+        <div class="f"><span class="lbl">tan</span><span class="eq">$\tan x = \dfrac{\sin x}{\cos x}$</span></div>
+        <div class="f"><span class="lbl">sec / csc</span><span class="eq">$\sec x=\tfrac{1}{\cos x},\ \csc x=\tfrac{1}{\sin x}$</span></div>
+        <div class="f"><span class="lbl">cot</span><span class="eq">$\cot x = \dfrac{\cos x}{\sin x}$</span></div>
+        <div class="f"><span class="lbl">周期</span><span class="eq">$2\pi\quad(\tan:\ \pi)$</span></div>
+      </div>
+      <div class="col hyp">
+        <span class="tag"><span class="dot"></span>双曲函数</span>
+        <div class="f"><span class="lbl">sinh</span><span class="eq">$\sinh x = \dfrac{e^{x}-e^{-x}}{2}$</span></div>
+        <div class="f"><span class="lbl">cosh</span><span class="eq">$\cosh x = \dfrac{e^{x}+e^{-x}}{2}$</span></div>
+        <div class="f"><span class="lbl">tanh</span><span class="eq">$\tanh x = \dfrac{\sinh x}{\cosh x}$</span></div>
+        <div class="f"><span class="lbl">sech / csch</span><span class="eq">$\operatorname{sech}x=\tfrac{1}{\cosh x},\ \operatorname{csch}x=\tfrac{1}{\sinh x}$</span></div>
+        <div class="f"><span class="lbl">coth</span><span class="eq">$\coth x = \dfrac{\cosh x}{\sinh x}$</span></div>
+        <div class="f"><span class="lbl">周期</span><span class="eq">$\text{无（非周期）}$</span></div>
+      </div>
+    </div>
+    <div class="note">取值范围：<b>$|\sin x|,|\cos x|\le 1$</b>，而 <b>$\cosh x\ge 1$</b>、$\sinh x\in\mathbb{R}$、$|\tanh x|<1$。</div>
+  </section>
+
+  <!-- 2. 基本恒等式 -->
+  <section id="identity">
+    <div class="sec-head"><span class="sec-num">02</span><h2>基本恒等式</h2><span class="sec-line"></span></div>
+    <div class="pair">
+      <div class="col trig">
+        <span class="tag"><span class="dot"></span>三角函数</span>
+        <div class="f"><span class="lbl">毕达哥拉斯</span><span class="eq">$\sin^2 x+\cos^2 x=1$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$1+\tan^2 x=\sec^2 x$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$1+\cot^2 x=\csc^2 x$</span></div>
+        <div class="f"><span class="lbl">奇偶</span><span class="eq">$\sin(-x)=-\sin x$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$\cos(-x)=\cos x$</span></div>
+      </div>
+      <div class="col hyp">
+        <span class="tag"><span class="dot"></span>双曲函数</span>
+        <div class="f"><span class="lbl">基本恒等式</span><span class="eq">$\cosh^2 x-\sinh^2 x=1$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$1-\tanh^2 x=\operatorname{sech}^2 x$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$\coth^2 x-1=\operatorname{csch}^2 x$</span></div>
+        <div class="f"><span class="lbl">奇偶</span><span class="eq">$\sinh(-x)=-\sinh x$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$\cosh(-x)=\cosh x$</span></div>
+      </div>
+    </div>
+    <div class="note">核心区别：三角是 <b>$\sin^2+\cos^2=1$</b>（加号），双曲是 <b>$\cosh^2-\sinh^2=1$</b>（减号）。</div>
+  </section>
+
+  <!-- 3. 特殊值 -->
+  <section id="special">
+    <div class="sec-head"><span class="sec-num">03</span><h2>特殊值</h2><span class="sec-line"></span></div>
+    <div class="pair">
+      <div class="col trig">
+        <span class="tag"><span class="dot"></span>三角函数</span>
+        <div class="f center"><span class="eq">$\sin 0=0,\quad \cos 0=1$</span></div>
+        <div class="f center"><span class="eq">$\sin\tfrac{\pi}{6}=\tfrac12,\quad \cos\tfrac{\pi}{6}=\tfrac{\sqrt3}{2}$</span></div>
+        <div class="f center"><span class="eq">$\sin\tfrac{\pi}{4}=\cos\tfrac{\pi}{4}=\tfrac{\sqrt2}{2}$</span></div>
+        <div class="f center"><span class="eq">$\sin\tfrac{\pi}{3}=\tfrac{\sqrt3}{2},\quad \cos\tfrac{\pi}{3}=\tfrac12$</span></div>
+        <div class="f center"><span class="eq">$\sin\tfrac{\pi}{2}=1,\quad \cos\tfrac{\pi}{2}=0$</span></div>
+      </div>
+      <div class="col hyp">
+        <span class="tag"><span class="dot"></span>双曲函数</span>
+        <div class="f center"><span class="eq">$\sinh 0=0,\quad \cosh 0=1$</span></div>
+        <div class="f center"><span class="eq">$\tanh 0=0,\quad \coth(\pm\infty)=\pm 1$</span></div>
+        <div class="f center"><span class="eq">$\sinh x\xrightarrow{x\to\infty}\tfrac{e^x}{2}$</span></div>
+        <div class="f center"><span class="eq">$\tanh x\xrightarrow{x\to+\infty}1$</span></div>
+        <div class="f center"><span class="eq">$\cosh x\ge 1\ \text{（最小值在 }x=0\text{）}$</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 加法公式 -->
+  <section id="add">
+    <div class="sec-head"><span class="sec-num">04</span><h2>加法 / 减法公式</h2><span class="sec-line"></span></div>
+    <div class="pair">
+      <div class="col trig">
+        <span class="tag"><span class="dot"></span>三角函数</span>
+        <div class="f"><span class="lbl">sin(a±b)</span><span class="eq">$\sin a\cos b\pm\cos a\sin b$</span></div>
+        <div class="f"><span class="lbl">cos(a±b)</span><span class="eq">$\cos a\cos b\mp\sin a\sin b$</span></div>
+        <div class="f"><span class="lbl">tan(a±b)</span><span class="eq">$\dfrac{\tan a\pm\tan b}{1\mp\tan a\tan b}$</span></div>
+      </div>
+      <div class="col hyp">
+        <span class="tag"><span class="dot"></span>双曲函数</span>
+        <div class="f"><span class="lbl">sinh(a±b)</span><span class="eq">$\sinh a\cosh b\pm\cosh a\sinh b$</span></div>
+        <div class="f"><span class="lbl">cosh(a±b)</span><span class="eq">$\cosh a\cosh b\pm\sinh a\sinh b$</span></div>
+        <div class="f"><span class="lbl">tanh(a±b)</span><span class="eq">$\dfrac{\tanh a\pm\tanh b}{1\pm\tanh a\tanh b}$</span></div>
+      </div>
+    </div>
+    <div class="note">注意 <b>$\cosh(a+b)$</b> 用的是 <b>加号</b>，而 $\cos(a+b)$ 用减号 —— 这正是 Osborn 法则中的符号变化。</div>
+  </section>
+
+  <!-- 5. 倍角 -->
+  <section id="double">
+    <div class="sec-head"><span class="sec-num">05</span><h2>倍角公式</h2><span class="sec-line"></span></div>
+    <div class="pair">
+      <div class="col trig">
+        <span class="tag"><span class="dot"></span>三角函数</span>
+        <div class="f"><span class="lbl">sin 2x</span><span class="eq">$2\sin x\cos x$</span></div>
+        <div class="f"><span class="lbl">cos 2x</span><span class="eq">$\cos^2 x-\sin^2 x$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$=2\cos^2 x-1=1-2\sin^2 x$</span></div>
+        <div class="f"><span class="lbl">tan 2x</span><span class="eq">$\dfrac{2\tan x}{1-\tan^2 x}$</span></div>
+      </div>
+      <div class="col hyp">
+        <span class="tag"><span class="dot"></span>双曲函数</span>
+        <div class="f"><span class="lbl">sinh 2x</span><span class="eq">$2\sinh x\cosh x$</span></div>
+        <div class="f"><span class="lbl">cosh 2x</span><span class="eq">$\cosh^2 x+\sinh^2 x$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$=2\cosh^2 x-1=1+2\sinh^2 x$</span></div>
+        <div class="f"><span class="lbl">tanh 2x</span><span class="eq">$\dfrac{2\tanh x}{1+\tanh^2 x}$</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 半角 -->
+  <section id="half">
+    <div class="sec-head"><span class="sec-num">06</span><h2>半角 / 降幂公式</h2><span class="sec-line"></span></div>
+    <div class="pair">
+      <div class="col trig">
+        <span class="tag"><span class="dot"></span>三角函数</span>
+        <div class="f"><span class="lbl">sin²x</span><span class="eq">$\dfrac{1-\cos 2x}{2}$</span></div>
+        <div class="f"><span class="lbl">cos²x</span><span class="eq">$\dfrac{1+\cos 2x}{2}$</span></div>
+        <div class="f"><span class="lbl">sin(x/2)</span><span class="eq">$\pm\sqrt{\dfrac{1-\cos x}{2}}$</span></div>
+        <div class="f"><span class="lbl">cos(x/2)</span><span class="eq">$\pm\sqrt{\dfrac{1+\cos x}{2}}$</span></div>
+      </div>
+      <div class="col hyp">
+        <span class="tag"><span class="dot"></span>双曲函数</span>
+        <div class="f"><span class="lbl">sinh²x</span><span class="eq">$\dfrac{\cosh 2x-1}{2}$</span></div>
+        <div class="f"><span class="lbl">cosh²x</span><span class="eq">$\dfrac{\cosh 2x+1}{2}$</span></div>
+        <div class="f"><span class="lbl">sinh(x/2)</span><span class="eq">$\pm\sqrt{\dfrac{\cosh x-1}{2}}$</span></div>
+        <div class="f"><span class="lbl">cosh(x/2)</span><span class="eq">$\sqrt{\dfrac{\cosh x+1}{2}}$</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. 积化和差 -->
+  <section id="prod">
+    <div class="sec-head"><span class="sec-num">07</span><h2>积化和差 &amp; 和差化积</h2><span class="sec-line"></span></div>
+    <div class="pair">
+      <div class="col trig">
+        <span class="tag"><span class="dot"></span>积化和差</span>
+        <div class="f"><span class="lbl"></span><span class="eq">$\sin a\cos b=\tfrac12[\sin(a+b)+\sin(a-b)]$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$\cos a\cos b=\tfrac12[\cos(a+b)+\cos(a-b)]$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$\sin a\sin b=\tfrac12[\cos(a-b)-\cos(a+b)]$</span></div>
+      </div>
+      <div class="col trig">
+        <span class="tag"><span class="dot"></span>和差化积</span>
+        <div class="f"><span class="lbl"></span><span class="eq">$\sin a+\sin b=2\sin\tfrac{a+b}{2}\cos\tfrac{a-b}{2}$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$\sin a-\sin b=2\cos\tfrac{a+b}{2}\sin\tfrac{a-b}{2}$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$\cos a+\cos b=2\cos\tfrac{a+b}{2}\cos\tfrac{a-b}{2}$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$\cos a-\cos b=-2\sin\tfrac{a+b}{2}\sin\tfrac{a-b}{2}$</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. 导数 -->
+  <section id="deriv">
+    <div class="sec-head"><span class="sec-num">08</span><h2>导数</h2><span class="sec-line"></span></div>
+    <div class="pair">
+      <div class="col trig">
+        <span class="tag"><span class="dot"></span>三角函数</span>
+        <div class="f"><span class="lbl">sin</span><span class="eq">$(\sin x)'=\cos x$</span></div>
+        <div class="f"><span class="lbl">cos</span><span class="eq">$(\cos x)'=-\sin x$</span></div>
+        <div class="f"><span class="lbl">tan</span><span class="eq">$(\tan x)'=\sec^2 x$</span></div>
+        <div class="f"><span class="lbl">cot</span><span class="eq">$(\cot x)'=-\csc^2 x$</span></div>
+        <div class="f"><span class="lbl">sec</span><span class="eq">$(\sec x)'=\sec x\tan x$</span></div>
+        <div class="f"><span class="lbl">csc</span><span class="eq">$(\csc x)'=-\csc x\cot x$</span></div>
+      </div>
+      <div class="col hyp">
+        <span class="tag"><span class="dot"></span>双曲函数</span>
+        <div class="f"><span class="lbl">sinh</span><span class="eq">$(\sinh x)'=\cosh x$</span></div>
+        <div class="f"><span class="lbl">cosh</span><span class="eq">$(\cosh x)'=\sinh x$</span></div>
+        <div class="f"><span class="lbl">tanh</span><span class="eq">$(\tanh x)'=\operatorname{sech}^2 x$</span></div>
+        <div class="f"><span class="lbl">coth</span><span class="eq">$(\coth x)'=-\operatorname{csch}^2 x$</span></div>
+        <div class="f"><span class="lbl">sech</span><span class="eq">$(\operatorname{sech}x)'=-\operatorname{sech}x\tanh x$</span></div>
+        <div class="f"><span class="lbl">csch</span><span class="eq">$(\operatorname{csch}x)'=-\operatorname{csch}x\coth x$</span></div>
+      </div>
+    </div>
+    <div class="note">关键差异：<b>$(\cos x)'=-\sin x$</b>（有负号），但 <b>$(\cosh x)'=+\sinh x$</b>（无负号）。</div>
+  </section>
+
+  <!-- 9. 积分 -->
+  <section id="integ">
+    <div class="sec-head"><span class="sec-num">09</span><h2>积分</h2><span class="sec-line"></span></div>
+    <div class="pair">
+      <div class="col trig">
+        <span class="tag"><span class="dot"></span>三角函数</span>
+        <div class="f"><span class="lbl">sin</span><span class="eq">$\int\sin x\,dx=-\cos x+C$</span></div>
+        <div class="f"><span class="lbl">cos</span><span class="eq">$\int\cos x\,dx=\sin x+C$</span></div>
+        <div class="f"><span class="lbl">tan</span><span class="eq">$\int\tan x\,dx=-\ln|\cos x|+C$</span></div>
+        <div class="f"><span class="lbl">sec</span><span class="eq">$\int\sec x\,dx=\ln|\sec x+\tan x|+C$</span></div>
+      </div>
+      <div class="col hyp">
+        <span class="tag"><span class="dot"></span>双曲函数</span>
+        <div class="f"><span class="lbl">sinh</span><span class="eq">$\int\sinh x\,dx=\cosh x+C$</span></div>
+        <div class="f"><span class="lbl">cosh</span><span class="eq">$\int\cosh x\,dx=\sinh x+C$</span></div>
+        <div class="f"><span class="lbl">tanh</span><span class="eq">$\int\tanh x\,dx=\ln(\cosh x)+C$</span></div>
+        <div class="f"><span class="lbl">sech</span><span class="eq">$\int\operatorname{sech}x\,dx=\arctan(\sinh x)+C$</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. 反函数 -->
+  <section id="inverse">
+    <div class="sec-head"><span class="sec-num">10</span><h2>反函数</h2><span class="sec-line"></span></div>
+    <div class="pair">
+      <div class="col trig">
+        <span class="tag"><span class="dot"></span>反三角函数 · 导数</span>
+        <div class="f"><span class="lbl">arcsin</span><span class="eq">$(\arcsin x)'=\dfrac{1}{\sqrt{1-x^2}}$</span></div>
+        <div class="f"><span class="lbl">arccos</span><span class="eq">$(\arccos x)'=\dfrac{-1}{\sqrt{1-x^2}}$</span></div>
+        <div class="f"><span class="lbl">arctan</span><span class="eq">$(\arctan x)'=\dfrac{1}{1+x^2}$</span></div>
+      </div>
+      <div class="col hyp">
+        <span class="tag"><span class="dot"></span>反双曲函数 · 对数形式</span>
+        <div class="f"><span class="lbl">arsinh</span><span class="eq">$\ln\!\big(x+\sqrt{x^2+1}\big)$</span></div>
+        <div class="f"><span class="lbl">arcosh</span><span class="eq">$\ln\!\big(x+\sqrt{x^2-1}\big),\ x\ge1$</span></div>
+        <div class="f"><span class="lbl">artanh</span><span class="eq">$\tfrac12\ln\dfrac{1+x}{1-x},\ |x|<1$</span></div>
+        <div class="f"><span class="lbl">导数 arsinh</span><span class="eq">$\dfrac{1}{\sqrt{x^2+1}}$</span></div>
+        <div class="f"><span class="lbl">导数 arcosh</span><span class="eq">$\dfrac{1}{\sqrt{x^2-1}}$</span></div>
+        <div class="f"><span class="lbl">导数 artanh</span><span class="eq">$\dfrac{1}{1-x^2}$</span></div>
+      </div>
+    </div>
+    <div class="note">由 $\cosh^2-\sinh^2=1$ 与 $e^x=\cosh x+\sinh x$ 即得 <b>$\operatorname{arsinh}x=\ln(x+\sqrt{x^2+1})$</b>，无需求根公式。</div>
+  </section>
+
+  <!-- 11. 级数 -->
+  <section id="series">
+    <div class="sec-head"><span class="sec-num">11</span><h2>泰勒级数展开</h2><span class="sec-line"></span></div>
+    <div class="pair">
+      <div class="col trig">
+        <span class="tag"><span class="dot"></span>三角函数</span>
+        <div class="f center"><span class="eq">$\sin x=x-\dfrac{x^3}{3!}+\dfrac{x^5}{5!}-\cdots$</span></div>
+        <div class="f center"><span class="eq">$\cos x=1-\dfrac{x^2}{2!}+\dfrac{x^4}{4!}-\cdots$</span></div>
+        <div class="f center"><span class="eq">$=\displaystyle\sum_{n=0}^{\infty}\dfrac{(-1)^n x^{2n+1}}{(2n+1)!}$</span></div>
+      </div>
+      <div class="col hyp">
+        <span class="tag"><span class="dot"></span>双曲函数</span>
+        <div class="f center"><span class="eq">$\sinh x=x+\dfrac{x^3}{3!}+\dfrac{x^5}{5!}+\cdots$</span></div>
+        <div class="f center"><span class="eq">$\cosh x=1+\dfrac{x^2}{2!}+\dfrac{x^4}{4!}+\cdots$</span></div>
+        <div class="f center"><span class="eq">$=\displaystyle\sum_{n=0}^{\infty}\dfrac{x^{2n+1}}{(2n+1)!}$</span></div>
+      </div>
+    </div>
+    <div class="note">级数<b>项相同</b>，差别仅在符号：三角交替正负，双曲<b>全为正号</b>。</div>
+  </section>
+
+  <!-- 12. 桥梁 -->
+  <section id="bridge">
+    <div class="sec-head"><span class="sec-num">12</span><h2>三角 ↔ 双曲（联系）</h2><span class="sec-line"></span></div>
+    <div class="pair">
+      <div class="col hyp">
+        <span class="tag"><span class="dot"></span>复数桥梁</span>
+        <div class="f"><span class="lbl"></span><span class="eq">$\sin(ix)=i\sinh x$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$\cos(ix)=\cosh x$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$\sinh(ix)=i\sin x$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$\cosh(ix)=\cos x$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$\tan(ix)=i\tanh x$</span></div>
+      </div>
+      <div class="col trig">
+        <span class="tag"><span class="dot"></span>欧拉公式</span>
+        <div class="f"><span class="lbl"></span><span class="eq">$e^{ix}=\cos x+i\sin x$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$e^{-ix}=\cos x-i\sin x$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$e^{x}=\cosh x+\sinh x$</span></div>
+        <div class="f"><span class="lbl"></span><span class="eq">$e^{-x}=\cosh x-\sinh x$</span></div>
+      </div>
+      <div class="col full" style="--c:var(--gold)">
+        <span class="tag" style="background:rgba(184,134,11,.12);color:var(--gold)"><span class="dot" style="background:var(--gold)"></span>Osborn 法则 · 记忆技巧</span>
+        <div class="f center"><span class="eq">将三角公式中 $\sin\to\sinh,\ \cos\to\cosh$；每遇到<b style="font-weight:600"> 两个 sin 相乘</b>（含 $\sin^2,\tan^2$），就<b style="font-weight:600">改变符号</b>。</span></div>
+        <div class="f center"><span class="eq">例：$\sin^2 x+\cos^2 x=1\ \Longrightarrow\ -\sinh^2 x+\cosh^2 x=1$</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    打造于一份夜深人静的数学整理 &nbsp;·&nbsp; rendered with <span class="heart">KaTeX</span>
+  </footer>
+
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: "$$", right: "$$", display: true},
+        {left: "$", right: "$", display: false}
+      ],
+      throwOnError: false
+    });
+  });
+</script>
+</body>
+</html>
